@@ -1,0 +1,26 @@
+pipeline {
+    agent any
+    environment {
+        PATH = "${env.PATH};C:\\Windows\\System32"
+    }
+    triggers {
+        pollSCM('H/5 * * * *')  
+    }
+    stages {
+        stage('Clone Repository') {
+            steps {
+                git branch: 'main',
+                    credentialsId: '42246eb7-3bbc-47cc-b9bd-5011aa4c478e',
+                    url: 'https://github.com/Exman-dev/MySoftware.git'
+            }
+        }
+        stage('Copy Script to Desktop') {
+            steps {
+                script {
+                    
+                   bat "copy ${WORKSPACE}\\project1\\myapp.py C:\\Users\\David\\Desktop\\myapp.py"
+                }
+            }
+        }
+    }
+}
